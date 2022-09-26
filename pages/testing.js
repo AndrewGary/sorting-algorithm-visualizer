@@ -7,7 +7,7 @@ const Canvas = props => {
     
   const canvasRef = useRef(null)
 
-  const drawLine = (ctx, x1, y1, x2,y2, stroke = 'black', width = 3) => {
+  const drawLine = (ctx, x1, y1, x2,y2, stroke = 'black', width = 1) => {
     // start a new path
     ctx.beginPath();
 
@@ -26,10 +26,13 @@ const Canvas = props => {
     // add stroke to the line 
     ctx.stroke();
   }
+
+  let canvas;
+  let context;
   
   useEffect(() => {
-    const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
+    canvas = canvasRef.current
+    context = canvas.getContext('2d')
     //Our first draw
     console.log(context);
 
@@ -37,28 +40,66 @@ const Canvas = props => {
         drawLine(context, i, 500, i, 500 - sortArray[i])
     }
 
-    performSort();
   }, [])
 
   useEffect(() => {
-    if(startSort){
-
+    for(let i = 0; i < 500; i++){
+      drawLine(context, i, 500, i, 500 -sortArray[i])
     }
-  }, [startSort])
+  }, [sortArray])
 
   const performSort = () => {
-      const blah = [0, 1, 2, 3, 4, 5];
+    
+    let inputArr = [...sortArray];
 
-    const swap = (index1, index2) => {
-        let placeHolder = blah[index1];
-        blah[index1] = blah[index2]
-        blah[index2] = placeHolder
-        
-    }
+    let n = inputArr.length;
 
-    swap(0, 3);
+    console.log(inputArr);
 
-    console.log(blah)
+
+    //
+    for(let i = 0; i < n; i++) {
+      // Finding the smallest number in the subarray
+      let min = i;
+      for(let j = i+1; j < n; j++){
+          if(inputArr[j] < inputArr[min]) {
+              min=j; 
+          }
+       }
+       if (min != i) {
+           // Swapping the elements
+           let tmp = inputArr[i]; 
+           inputArr[i] = inputArr[min];
+           inputArr[min] = tmp;      
+      }
+  }
+
+  console.log(inputArr)
+  setSortArray(inputArr)
+
+    // const arrayCopy = [...sortArray]
+    // console.log('array before sort')
+    // console.log(arrayCopy);
+
+    
+    // for(let i = 0; i < arrayCopy.length; i++){
+    //   let min = i;
+
+    //   for(let ii = i+1; ii < arrayCopy.length; ii++){
+    //     if(arrayCopy[ii] < arrayCopy[i]){
+    //       min = ii;
+    //     }
+    //   }
+
+    //   if(min != i){
+    //     let placeHolder = arrayCopy[i];
+    //     arrayCopy[i] = arrayCopy[min];
+    //     arrayCopy[min] = placeHolder;
+    //   }
+    // }
+
+    // console.log('array after sort');
+    // console.log(arrayCopy);
 
 
     
@@ -70,15 +111,13 @@ const Canvas = props => {
   
   
   return (
-    <div className='w-full min-h-screen flex justify-center items-center'>
+    <div className='w-full min-h-screen flex flex-col justify-center items-center'>
         <div className='w-4/5 border border-black min-h-screen'>
-            <canvas height='500' width='500' ref={canvasRef} {...props}/>
+            <canvas height='500' width='1000' ref={canvasRef} {...props}/>
 
         </div>
 
-        <button onClick={() => {
-            setStartSort(!startSort)
-        }}></button>
+        <button onClick={performSort}>Start Sort</button>
 
     </div>
 
