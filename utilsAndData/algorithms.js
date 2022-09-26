@@ -71,7 +71,7 @@ export const returnUnsortedArray = (sizeOfArray) => {
     
     const randomArray = [];
     for(let i = 0; i < sizeOfArray; i++){
-        randomArray.push(Math.floor(Math.random() * 10000))
+        randomArray.push(Math.floor(Math.random() * 500))
     }
 
     return randomArray;
