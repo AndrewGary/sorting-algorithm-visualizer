@@ -26,56 +26,84 @@ const Canvas = props => {
     // add stroke to the line 
     ctx.stroke();
   }
-
-  let canvas;
-  let context;
   
   useEffect(() => {
-    canvas = canvasRef.current
-    context = canvas.getContext('2d')
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d')
     //Our first draw
     console.log(context);
 
     for(let i = 0; i < 500; i++){
-        drawLine(context, i, 500, i, 500 - sortArray[i])
+        drawLine(context, i + (i * 2 - 1), 500, i + (i * 2 - 1), 500 - sortArray[i])
+        // drawLine(context, i + (i * 2), 500, i + (i * 2), 500 - sortArray[i])
+        // drawLine(context, i + (i * 2), 500, i + (i * 2), 500 - sortArray[i])
+
     }
 
   }, [])
 
-  useEffect(() => {
-    for(let i = 0; i < 500; i++){
-      drawLine(context, i, 500, i, 500 -sortArray[i])
-    }
-  }, [sortArray])
+//   useEffect(() => {
+//     const canvas = canvasRef.current;
+//     const context = canvas.getContext('2d');
+//     if(sortArray.length === 500){
+//         for(let i = 0; i < 500; i++){
+//           drawLine(context, i, 500, i, 500 -sortArray[i])
+//         }
+
+//     }
+//   }, [sortArray])
 
   const performSort = () => {
+
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
     
     let inputArr = [...sortArray];
 
     let n = inputArr.length;
 
     console.log(inputArr);
+    let index = 0;
+
+    setInterval(() => {
+        context.clearRect(index, 0, 1, canvas.height)
+        drawLine(context, index, 500, index, 500 -sortArray[index], 'red')
+
+        index++;
+        // index++;
+        // drawLine(context, i -1, 500, i - 1, 500 -sortArray[i], 'black')
+    }, 100)
+    
+    // for(let i = 0; i < inputArr.length; i++){
+    //     setTimeout(() => {
+            
+            
+    //     }, 1000)
+    // }
 
 
     //
-    for(let i = 0; i < n; i++) {
-      // Finding the smallest number in the subarray
-      let min = i;
-      for(let j = i+1; j < n; j++){
-          if(inputArr[j] < inputArr[min]) {
-              min=j; 
-          }
-       }
-       if (min != i) {
-           // Swapping the elements
-           let tmp = inputArr[i]; 
-           inputArr[i] = inputArr[min];
-           inputArr[min] = tmp;      
-      }
-  }
+//     for(let i = 0; i < n; i++) {
+//         // setTimeout(() => {
+//         //     context.drawLine()
+//         // },200)
+//       // Finding the smallest number in the subarray
+//       let min = i;
+//       for(let j = i+1; j < n; j++){
+//           if(inputArr[j] < inputArr[min]) {
+//               min=j; 
+//           }
+//        }
+//        if (min != i) {
+//            // Swapping the elements
+//            let tmp = inputArr[i]; 
+//            inputArr[i] = inputArr[min];
+//            inputArr[min] = tmp;      
+//       }
+//   }
 
-  console.log(inputArr)
-  setSortArray(inputArr)
+//   console.log(inputArr)
+//   setSortArray(inputArr)
 
     // const arrayCopy = [...sortArray]
     // console.log('array before sort')
@@ -104,9 +132,6 @@ const Canvas = props => {
 
     
   }
-  useEffect(() => {
-
-  }, [sortArray]); 
 
   
   
